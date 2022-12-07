@@ -39,5 +39,5 @@ declare namespace JUnitTestRailReporter {
 
   type Status = 'failed' | 'passed' | 'skipped';
 
-  type TestCaseResult = { case_id: number; comment?: string; status_id: number };
+  type TestCaseResult = { case_id: number; comment?: string | null; status_id: number, elapsed?: string | null };
 }

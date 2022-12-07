@@ -54,12 +54,14 @@ export class Reporter {
     testSuiteId: number,
     testCaseId: number,
     testResult: JUnitTestRailReporter.Status,
-    failureMessage?: string
+    failureMessage?: string | null,
+    elapsedTime?: string | null,
   ) => {
     const testCaseResult: JUnitTestRailReporter.TestCaseResult = {
       case_id: testCaseId,
       comment: failureMessage,
       status_id: StatusMap[testResult],
+      elapsed: elapsedTime,
     };
 
     const testSuiteResult = this._testResults.get(testSuiteId);
@@ -150,6 +152,12 @@ export class Reporter {
         const testRailMetadataMatches = [
           ...currentCase.$.name.matchAll(this._testRailMetadataRegex),
         ];
+        let elapsedTime = null;
+        if(currentCase.$.time < 10 && currentCase.$.time > 0.000){
+          elapsedTime = (currentCase.$.time).toString() + "s";
+        } else if(!currentCase.failure){
+          elapsedTime = new Date(currentCase.$.time * 1000).toISOString().slice(11,19)
+        }
 
         if (!testRailMetadataMatches.length) {
           return;
@@ -177,7 +185,9 @@ export class Reporter {
               this._addTestCaseResult(
                 testSuiteId,
                 testCaseId,
-                currentCase.skipped === undefined ? 'passed' : 'skipped'
+                currentCase.skipped === undefined ? 'passed' : 'skipped',
+                  null,
+                  elapsedTime,
               );
               return;
             }
@@ -192,7 +202,7 @@ export class Reporter {
               }, '');
             }
 
-            this._addTestCaseResult(testSuiteId, testCaseId, 'failed', failureMessage);
+            this._addTestCaseResult(testSuiteId, testCaseId, 'failed', failureMessage, elapsedTime);
           });
         });
       });
