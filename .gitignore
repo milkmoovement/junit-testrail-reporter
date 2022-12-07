@@ -1,10 +1,7 @@
-
-# Builds
-dist/
-
 # Dependencies
 node_modules/
 package-lock.json
 
 # Editors
 .vscode/
+.idea
