@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@dlenroc/testrail':
-        specifier: ^1.8.0
+        specifier: 1.9.4
         version: 1.9.4
       chalk:
         specifier: 4.1.2

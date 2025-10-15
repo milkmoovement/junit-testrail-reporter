@@ -37,7 +37,7 @@
     "testrail"
   ],
   "dependencies": {
-    "@dlenroc/testrail": "^1.8.0",
+    "@dlenroc/testrail": "1.9.4",
     "chalk": "4.1.2",
     "glob": "^7.2.0",
     "xml2js": "^0.4.23",
